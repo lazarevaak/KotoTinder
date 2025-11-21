@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';  // ← вот это добавь
+import 'package:cached_network_image/cached_network_image.dart'; // ← вот это добавь
 
 import '../viewmodels/cat_viewmodel.dart';
 import '../widgets/swipe_card.dart';
@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                   child: SwipeCard(
                     onSwipeLeft: () => vm.loadCat(),
                     onSwipeRight: () {
-                      vm.like();   // увеличиваем лайки
+                      vm.like(); // увеличиваем лайки
                       vm.loadCat(); // грузим нового кота
                     },
                     child: GestureDetector(
@@ -46,11 +46,11 @@ class HomeScreen extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: cat.url,
                         fit: BoxFit.cover,
-                        placeholder: (context, url) => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                      ),    
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
                     ),
                   ),
                 ),
@@ -72,12 +72,7 @@ class HomeScreen extends StatelessWidget {
                     fontSize: 28,
                     color: Color(0xFFFFB9C6),
                     fontWeight: FontWeight.bold,
-                    shadows: [
-                      Shadow(
-                        color: Colors.black12,
-                        blurRadius: 6,
-                      )
-                    ],
+                    shadows: [Shadow(color: Colors.black12, blurRadius: 6)],
                   ),
                 ),
 

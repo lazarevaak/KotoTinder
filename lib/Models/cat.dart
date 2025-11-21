@@ -24,8 +24,7 @@ class Cat {
   factory Cat.fromJson(Map<String, dynamic> json) {
     final breeds = json['breeds'] as List<dynamic>?;
 
-    final breedJson =
-        (breeds != null && breeds.isNotEmpty) ? breeds[0] : null;
+    final breedJson = (breeds != null && breeds.isNotEmpty) ? breeds[0] : null;
 
     return Cat(
       id: json['id'],

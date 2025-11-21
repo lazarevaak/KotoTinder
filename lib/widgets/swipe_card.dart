@@ -25,6 +25,7 @@ class _SwipeCardState extends State<SwipeCard>
   double angle = 0;
 
   bool isSwiping = false;
+  bool _isDisposed = false;
 
   @override
   void initState() {
@@ -36,16 +37,29 @@ class _SwipeCardState extends State<SwipeCard>
     );
 
     _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
+      if (status == AnimationStatus.completed && !_isDisposed) {
         setState(() {
           posX = 0;
           posY = 0;
           angle = 0;
           isSwiping = false;
-          _controller.reset();
         });
+
+        _controller.reset();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+
+    if (_controller.isAnimating) {
+      _controller.stop();
+    }
+
+    _controller.dispose();
+    super.dispose();
   }
 
   void resetCard() {
@@ -67,10 +81,12 @@ class _SwipeCardState extends State<SwipeCard>
     _controller.forward();
 
     Future.delayed(const Duration(milliseconds: 350), () {
-      if (right) {
-        widget.onSwipeRight();
-      } else {
-        widget.onSwipeLeft();
+      if (!_isDisposed) {
+        if (right) {
+          widget.onSwipeRight();
+        } else {
+          widget.onSwipeLeft();
+        }
       }
     });
   }
@@ -82,18 +98,18 @@ class _SwipeCardState extends State<SwipeCard>
         setState(() {
           posX += details.delta.dx;
           posY += details.delta.dy;
-          angle = posX / 300; 
+          angle = posX / 300;
         });
       },
       onPanEnd: (details) {
         const swipeThreshold = 120;
 
         if (posX > swipeThreshold) {
-          animateCardOffscreen(true); 
+          animateCardOffscreen(true);
         } else if (posX < -swipeThreshold) {
-          animateCardOffscreen(false); 
+          animateCardOffscreen(false);
         } else {
-          resetCard(); 
+          resetCard();
         }
       },
       child: AnimatedBuilder(
@@ -114,7 +130,7 @@ class _SwipeCardState extends State<SwipeCard>
                     borderRadius: BorderRadius.circular(28),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
+                        color: Colors.black.withValues(alpha: 0.08),
                         blurRadius: 20,
                         offset: const Offset(0, 8),
                       ),

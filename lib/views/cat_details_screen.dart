@@ -12,9 +12,7 @@ class CatDetailsScreen extends StatelessWidget {
     final fullBreed = cat.fullBreed; // добавим это в модель Cat
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(breed ?? "Котик"),
-      ),
+      appBar: AppBar(title: Text(breed ?? "Котик")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -37,10 +35,7 @@ class CatDetailsScreen extends StatelessWidget {
 
             Text(
               breed ?? "Без породы",
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
 
             if (fullBreed != null) ...[
@@ -70,10 +65,7 @@ class CatDetailsScreen extends StatelessWidget {
 
               Text(
                 fullBreed.description,
-                style: const TextStyle(
-                  fontSize: 16,
-                  height: 1.4,
-                ),
+                style: const TextStyle(fontSize: 16, height: 1.4),
               ),
 
               const SizedBox(height: 20),

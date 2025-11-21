@@ -17,15 +17,14 @@ class KotoTinderApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFF9F5FA), // светлый мягкий фон
-
         // Цвета под стиль иконки
-        primaryColor: const Color(0xFF4FD5D0),     // бирюзовый
+        primaryColor: const Color(0xFF4FD5D0), // бирюзовый
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
 
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
-          selectedItemColor: Color(0xFF4FD5D0),   // бирюза
+          selectedItemColor: Color(0xFF4FD5D0), // бирюза
           unselectedItemColor: Colors.black26,
           elevation: 8,
           type: BottomNavigationBarType.fixed,
@@ -52,10 +51,7 @@ class RootTabBar extends StatefulWidget {
 class _RootTabBarState extends State<RootTabBar> {
   int index = 0;
 
-  final screens = const [
-    HomeScreen(),
-    BreedsListScreen(),
-  ];
+  final screens = const [HomeScreen(), BreedsListScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +61,8 @@ class _RootTabBarState extends State<RootTabBar> {
         currentIndex: index,
         onTap: (i) => setState(() => index = i),
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pets),
-            label: "Cats",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: "Breeds",
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: "Cats"),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: "Breeds"),
         ],
       ),
     );
