@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';  // ← вот это добавь
+
 import '../viewmodels/cat_viewmodel.dart';
 import '../widgets/swipe_card.dart';
 import '../views/cat_details_screen.dart';
@@ -41,13 +43,14 @@ class HomeScreen extends StatelessWidget {
                           builder: (_) => CatDetailsScreen(cat: cat),
                         ),
                       ),
-                      child: Hero(
-                        tag: cat.id,
-                        child: Image.network(
-                          cat.url,
-                          fit: BoxFit.cover,
+                      child: CachedNetworkImage(
+                        imageUrl: cat.url,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
                         ),
-                      ),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      ),    
                     ),
                   ),
                 ),
