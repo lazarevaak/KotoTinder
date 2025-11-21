@@ -3,22 +3,23 @@ import '../models/cat.dart';
 import '../services/cat_api_service.dart';
 
 class CatViewModel extends ChangeNotifier {
-  final api = CatApiService();
+  final _api = CatApiService();
 
+  bool loading = false;
   Cat? currentCat;
   int likes = 0;
-  bool loading = false;
 
   Future<void> loadCat() async {
     loading = true;
     notifyListeners();
 
-    try {
-      final data = await api.getRandomCat();
-      currentCat = Cat.fromJson(data[0]);
-    } catch (e) {
-      rethrow;
-    } finally {
+ try {
+      final json = await _api.getRandomCatWithBreed();
+      print("=== JSON КОТА ===");
+      print(json);
+      currentCat = Cat.fromJson(json);
+  }
+ finally {
       loading = false;
       notifyListeners();
     }
