@@ -15,8 +15,6 @@ class CatViewModel extends ChangeNotifier {
 
  try {
       final json = await _api.getRandomCatWithBreed();
-      print("=== JSON КОТА ===");
-      print(json);
       currentCat = Cat.fromJson(json);
   }
  finally {
