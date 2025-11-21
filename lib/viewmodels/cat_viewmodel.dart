@@ -13,11 +13,10 @@ class CatViewModel extends ChangeNotifier {
     loading = true;
     notifyListeners();
 
- try {
+    try {
       final json = await _api.getRandomCatWithBreed();
       currentCat = Cat.fromJson(json);
-  }
- finally {
+    } finally {
       loading = false;
       notifyListeners();
     }
