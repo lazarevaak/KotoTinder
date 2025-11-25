@@ -4,6 +4,7 @@ import '../services/cat_api_service.dart';
 
 class CatViewModel extends ChangeNotifier {
   final _api = CatApiService();
+  final List<Cat> likedCats = [];
 
   bool loading = false;
   Cat? currentCat;
@@ -24,6 +25,11 @@ class CatViewModel extends ChangeNotifier {
 
   void like() {
     likes++;
+
+    if (currentCat != null) {
+      likedCats.add(currentCat!);
+    }
+
     notifyListeners();
   }
 }

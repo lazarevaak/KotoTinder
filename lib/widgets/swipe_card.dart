@@ -93,6 +93,12 @@ class _SwipeCardState extends State<SwipeCard>
 
   @override
   Widget build(BuildContext context) {
+    double power = (posX.abs() / 120).clamp(0, 1);
+
+    final Color borderColor = posX > 0
+        ? Colors.pinkAccent
+        : const Color(0xFF4FD5D0);
+
     return GestureDetector(
       onPanUpdate: (details) {
         setState(() {
@@ -101,7 +107,7 @@ class _SwipeCardState extends State<SwipeCard>
           angle = posX / 300;
         });
       },
-      onPanEnd: (details) {
+      onPanEnd: (_) {
         const swipeThreshold = 120;
 
         if (posX > swipeThreshold) {
@@ -126,18 +132,28 @@ class _SwipeCardState extends State<SwipeCard>
                   width: 330,
                   height: 430,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(28),
+                    borderRadius: BorderRadius.circular(48),
+
                     boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.08),
-                        blurRadius: 20,
-                        offset: const Offset(0, 8),
-                      ),
+                      if (posX != 0)
+                        BoxShadow(
+                          color: borderColor.withValues(alpha: (power * 0.7)),
+                          blurRadius: 40 * power,
+                          spreadRadius: 8 * power,
+                        ),
                     ],
+
+                    border: Border.all(
+                      color: posX == 0
+                          ? Colors.transparent
+                          : borderColor.withValues(alpha: 0.9),
+                      width: power * 6,
+                    ),
                   ),
-                  clipBehavior: Clip.antiAlias,
-                  child: widget.child,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(48),
+                    child: Container(color: Colors.white, child: widget.child),
+                  ),
                 ),
               ),
             ),
