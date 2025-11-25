@@ -9,7 +9,18 @@ class BreedDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(breed.name)),
+      appBar: AppBar(
+        title: Text(
+          breed.name,
+          style: const TextStyle(
+            color: Color(0xFF4FD5D0),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        backgroundColor: const Color(0xFFF9F5FA),
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Color(0xFF4FD5D0)),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -23,14 +34,14 @@ class BreedDetailsScreen extends StatelessWidget {
             const SizedBox(height: 10),
 
             Text(
-              "Происхождение: ${breed.origin}",
+              "Origin: ${breed.origin}",
               style: const TextStyle(fontSize: 18, color: Colors.black87),
             ),
 
             const SizedBox(height: 20),
 
             const Text(
-              "Темперамент",
+              "Temperament",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
 
@@ -54,7 +65,7 @@ class BreedDetailsScreen extends StatelessWidget {
             const SizedBox(height: 25),
 
             const Text(
-              "Описание",
+              "Description",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
 
@@ -68,15 +79,15 @@ class BreedDetailsScreen extends StatelessWidget {
             const SizedBox(height: 25),
 
             Text(
-              "Продолжительность жизни: ${breed.lifeSpan} лет",
+              "Life span: ${breed.lifeSpan} years",
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
             ),
 
             const SizedBox(height: 25),
 
-            _buildStat("Дружелюбность к детям", breed.childFriendly),
-            _buildStat("Дружелюбность к собакам", breed.dogFriendly),
-            _buildStat("Энергия", breed.energyLevel),
+            _buildStat("Child friendliness", breed.childFriendly),
+            _buildStat("Dog friendliness", breed.dogFriendly),
+            _buildStat("Energy level", breed.energyLevel),
 
             const SizedBox(height: 40),
           ],
@@ -89,7 +100,7 @@ class BreedDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 12), // ← тоже добавлен const
+        const SizedBox(height: 12),
         Text("$title: $value/5", style: const TextStyle(fontSize: 16)),
         const SizedBox(height: 6),
         LinearProgressIndicator(

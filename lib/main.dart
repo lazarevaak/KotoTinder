@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'views/home_screen.dart';
+
 import 'views/breeds_list_screen.dart';
+import 'views/liked_cats_screen.dart';
+import 'viewmodels/cat_viewmodel.dart';
 
 void main() {
-  runApp(const KotoTinderApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => CatViewModel()..loadCat(),
+      child: const KotoTinderApp(),
+    ),
+  );
 }
 
 class KotoTinderApp extends StatelessWidget {
@@ -16,18 +25,14 @@ class KotoTinderApp extends StatelessWidget {
       title: "KotoTinder",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFF9F5FA), // светлый мягкий фон
-        // Цвета под стиль иконки
-        primaryColor: const Color(0xFF4FD5D0), // бирюзовый
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
+        scaffoldBackgroundColor: const Color(0xFFF9F5FA),
+        primaryColor: const Color(0xFF4FD5D0),
 
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
-          selectedItemColor: Color(0xFF4FD5D0), // бирюза
+          selectedItemColor: Color(0xFF4FD5D0),
           unselectedItemColor: Colors.black26,
           elevation: 8,
-          type: BottomNavigationBarType.fixed,
         ),
 
         appBarTheme: const AppBarTheme(
@@ -51,7 +56,7 @@ class RootTabBar extends StatefulWidget {
 class _RootTabBarState extends State<RootTabBar> {
   int index = 0;
 
-  final screens = const [HomeScreen(), BreedsListScreen()];
+  final screens = const [HomeScreen(), BreedsListScreen(), LikedCatsScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +68,7 @@ class _RootTabBarState extends State<RootTabBar> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.pets), label: "Cats"),
           BottomNavigationBarItem(icon: Icon(Icons.list), label: "Breeds"),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Liked"),
         ],
       ),
     );
