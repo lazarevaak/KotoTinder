@@ -1,35 +1,60 @@
 import 'package:flutter/material.dart';
 import '../models/cat.dart';
-import '../services/cat_api_service.dart';
+import '../repository/cat_repository.dart';
 
 class CatViewModel extends ChangeNotifier {
-  final _api = CatApiService();
-  final List<Cat> likedCats = [];
+  final CatRepository repo;
+
+  CatViewModel({required this.repo});
+
+  List<Cat> likedCats = [];
+  Cat? currentCat;
 
   bool loading = false;
-  Cat? currentCat;
-  int likes = 0;
+  String? error;
+
+  Future<void> init() async {
+    await repo.init();
+
+    likedCats = repo.loadSavedCats();
+
+    for (int i = 0; i < likedCats.length; i++) {
+      final breed = await repo.loadBreed(likedCats[i].breedID);
+      likedCats[i] = likedCats[i].copyWith(fullBreed: breed);
+    }
+
+    await loadCat();
+
+    notifyListeners();
+  }
 
   Future<void> loadCat() async {
     loading = true;
     notifyListeners();
 
     try {
-      final json = await _api.getRandomCatWithBreed();
-      currentCat = Cat.fromJson(json);
-    } finally {
-      loading = false;
-      notifyListeners();
+      currentCat = await repo.loadRandomCat();
+    } catch (e) {
+      error = e.toString();
     }
+
+    loading = false;
+    notifyListeners();
   }
 
-  void like() {
-    likes++;
+  Future<void> like() async {
+    if (currentCat == null) return;
 
-    if (currentCat != null) {
-      likedCats.add(currentCat!);
-    }
-
+    likedCats.add(currentCat!);
     notifyListeners();
+
+    await repo.saveCat(currentCat!);
+  }
+
+  Future<void> remove(Cat cat) async {
+    likedCats.remove(cat);
+    notifyListeners();
+
+    await repo.removeCat(cat.id);
   }
 }
