@@ -60,17 +60,23 @@
 
 ### Главный экран
 
-<img width="404" height="850" alt="Снимок экрана 2025-12-03 в 03 51 13" src="https://github.com/user-attachments/assets/d289058c-7f2a-4723-80ca-bd1036edb938" /><img width="404" height="850" alt="Снимок экрана 2025-12-03 в 03 52 58" src="https://github.com/user-attachments/assets/27cdfbb7-8a59-4b90-b800-12718d93e6b2" />
+<img width="404" height="850" alt="Снимок экрана 2025-12-03 в 03 51 13" src="https://github.com/user-attachments/assets/d289058c-7f2a-4723-80ca-bd1036edb938" />
 
 <img width="404" height="850" alt="Снимок экрана 2025-12-03 в 03 53 30" src="https://github.com/user-attachments/assets/a99eac87-2034-403e-b07b-ca269ef7afed" />
 
 
 ### Детали кота
 
+<img width="404" height="850" alt="Снимок экрана 2025-12-03 в 03 54 10" src="https://github.com/user-attachments/assets/ac8f1bcf-b975-4efa-8d6b-4c44667efbac" />
 
 
 ### Список пород
 
+<img width="404" height="850" alt="Снимок экрана 2025-12-03 в 03 54 34" src="https://github.com/user-attachments/assets/cd60ae74-16ea-476f-bcfa-f026102c24f1" />
+
+### Лайк Коты
+
+<img width="404" height="850" alt="Снимок экрана 2025-12-03 в 03 54 43" src="https://github.com/user-attachments/assets/87e623a6-37e7-4cf1-9227-ad3e94a71e4f" />
 
 
 ## Скачать APK
