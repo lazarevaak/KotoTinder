@@ -29,11 +29,9 @@ class CatDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- Картинка + текст в строке ---
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // квадратная картинка
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: SizedBox(

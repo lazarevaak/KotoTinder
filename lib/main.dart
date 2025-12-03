@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'storage/cat_hive_model.dart';
 
 import 'views/home_screen.dart';
-
 import 'views/breeds_list_screen.dart';
 import 'views/liked_cats_screen.dart';
 import 'viewmodels/cat_viewmodel.dart';
+import 'services/cat_api_service.dart';
+import 'repository/cat_repository.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(CatHiveModelAdapter());
+
+  await Hive.openBox<CatHiveModel>('liked_cats');
+
+  final repo = CatRepository(api: CatApiService());
+
   runApp(
     ChangeNotifierProvider(
-      create: (_) => CatViewModel()..loadCat(),
+      create: (_) => CatViewModel(repo: repo)..init(),
       child: const KotoTinderApp(),
     ),
   );

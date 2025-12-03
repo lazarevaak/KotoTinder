@@ -8,8 +8,7 @@ class Cat {
 
   final String? breedID;
   final String? breedName;
-
-  final Breed? fullBreed; // <— добавили
+  final Breed? fullBreed;
 
   Cat({
     required this.id,
@@ -34,6 +33,26 @@ class Cat {
       breedID: breedJson?['id'],
       breedName: breedJson?['name'],
       fullBreed: breedJson != null ? Breed.fromJson(breedJson) : null,
+    );
+  }
+
+  Cat copyWith({
+    String? id,
+    String? url,
+    int? width,
+    int? height,
+    String? breedID,
+    String? breedName,
+    Breed? fullBreed,
+  }) {
+    return Cat(
+      id: id ?? this.id,
+      url: url ?? this.url,
+      width: width ?? this.width,
+      height: height ?? this.height,
+      breedID: breedID ?? this.breedID,
+      breedName: breedName ?? this.breedName,
+      fullBreed: fullBreed ?? this.fullBreed,
     );
   }
 }
