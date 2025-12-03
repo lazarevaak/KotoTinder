@@ -30,6 +30,7 @@ class CatViewModel extends ChangeNotifier {
 
   Future<void> loadCat() async {
     loading = true;
+    currentCat = null;   
     notifyListeners();
 
     try {
