@@ -10,7 +10,7 @@ class Breed {
   final int dogFriendly;
   final int energyLevel;
 
-  Breed({
+  const Breed({
     required this.id,
     required this.name,
     required this.origin,
@@ -22,17 +22,5 @@ class Breed {
     required this.energyLevel,
   });
 
-  factory Breed.fromJson(Map<String, dynamic> json) {
-    return Breed(
-      id: json['id'],
-      name: json['name'],
-      origin: json['origin'],
-      temperament: json['temperament'],
-      description: json['description'],
-      lifeSpan: json['life_span'],
-      childFriendly: json['child_friendly'] ?? 0,
-      dogFriendly: json['dog_friendly'] ?? 0,
-      energyLevel: json['energy_level'] ?? 0,
-    );
-  }
+  static fromJson(e) {}
 }

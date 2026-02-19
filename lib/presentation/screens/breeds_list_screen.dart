@@ -8,12 +8,9 @@ class BreedsListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => BreedsViewModel()..loadBreeds(),
-      child: const Scaffold(
-        backgroundColor: Color(0xFFF6F6FA),
-        body: _BreedsBody(),
-      ),
+    return const Scaffold(
+      backgroundColor: Color(0xFFF6F6FA),
+      body: _BreedsBody(),
     );
   }
 }
