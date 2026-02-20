@@ -86,6 +86,7 @@ class App extends StatelessWidget {
             checkAuthStatus: context.read<CheckAuthStatus>(),
             completeOnboardingUseCase:
                 context.read<CompleteOnboarding>(),
+            repository: context.read<AuthRepository>(),
           )..init(),
         ),
 

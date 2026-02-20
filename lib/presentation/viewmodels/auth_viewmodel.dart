@@ -4,15 +4,18 @@ import '../../domain/usecases/login.dart';
 import '../../domain/usecases/register.dart';
 import '../../domain/usecases/check_auth_status.dart';
 import '../../domain/usecases/complete_onboarding.dart';
+import '../../domain/repositories/auth_repository.dart';
 
 class AuthViewModel extends ChangeNotifier {
   final Login loginUseCase;
   final Register registerUseCase;
   final CheckAuthStatus checkAuthStatus;
   final CompleteOnboarding completeOnboardingUseCase;
+  final AuthRepository repository;
 
   bool isLoggedIn = false;
   bool onboardingCompleted = false;
+  bool isInitialized = false;
   String? error;
 
   AuthViewModel({
@@ -20,10 +23,14 @@ class AuthViewModel extends ChangeNotifier {
     required this.registerUseCase,
     required this.checkAuthStatus,
     required this.completeOnboardingUseCase,
+    required this.repository,
   });
 
   Future<void> init() async {
     isLoggedIn = await checkAuthStatus();
+    onboardingCompleted = await repository.isOnboardingCompleted();
+
+    isInitialized = true;
     notifyListeners();
   }
 
@@ -40,7 +47,10 @@ class AuthViewModel extends ChangeNotifier {
 
   Future<void> register(String email, String password) async {
     await registerUseCase(email, password);
+
     isLoggedIn = true;
+    onboardingCompleted = false; 
+
     notifyListeners();
   }
 

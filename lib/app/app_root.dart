@@ -29,12 +29,18 @@ class AppRoot extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthViewModel>();
 
-    if (!auth.onboardingCompleted) {
-      return const OnboardingScreen();
+    if (!auth.isInitialized) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
 
     if (!auth.isLoggedIn) {
       return const LoginScreen();
+    }
+
+    if (!auth.onboardingCompleted) {
+      return const OnboardingScreen();
     }
 
     return const RootTabBar();
