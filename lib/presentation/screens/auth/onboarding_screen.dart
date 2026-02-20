@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../viewmodels/auth_viewmodel.dart';
+
 import '../../../domain/entities/onboarding_page.dart';
+
+import 'widgets/bottom_buttons.dart';
+import 'widgets/background.dart';
+import 'widgets/indicators.dart';
+import 'widgets/onboarding_pager.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -64,47 +70,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // 🌈 Light premium gradient
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFFBFF4F6),
-                  Color(0xFF9EE8EC),
-                  Color(0xFF73D6DB),
-                  Color(0xFF4DAFB4),
-                ],
-                stops: [0.0, 0.35, 0.7, 1.0],
-              ),
-            ),
-          ),
+          const Background(),
 
-          // ✨ Proper radial glow
-          Positioned(
-            top: -180,
-            left: -120,
-            child: IgnorePointer(
-              child: Container(
-                width: 420,
-                height: 420,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    colors: [
-                      Color(0x55FFFFFF),
-                      Color(0x22FFFFFF),
-                      Colors.transparent,
-                    ],
-                    stops: [0.0, 0.55, 1.0],
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          // 📱 CONTENT
           SafeArea(
             child: Column(
               children: [
@@ -133,44 +100,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 const SizedBox(height: 20),
 
                 Expanded(
-                  child: PageView.builder(
+                  child: OnboardingPager(
                     controller: _controller,
-                    physics:
-                        const BouncingScrollPhysics(),
-                    itemCount: _pages.length,
-                    itemBuilder: (_, index) {
-                      final delta = index - _pageOffset;
-
-                      final scale =
-                          (1 - delta.abs() * 0.2)
-                              .clamp(0.8, 1.0);
-
-                      final translateX = delta * 60;
-                      final rotation = delta * 0.06;
-
-                      return Transform.translate(
-                        offset: Offset(translateX, 0),
-                        child: Transform.rotate(
-                          angle: rotation,
-                          child: Transform.scale(
-                            scale: scale,
-                            child: Center(
-                              child: SizedBox(
-                                height:
-                                    MediaQuery.of(context)
-                                            .size
-                                            .height *
-                                        0.55,
-                                child: Image.asset(
-                                  _pages[index].image,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                    pageOffset: _pageOffset,
+                    pages: _pages,
                   ),
                 ),
 
@@ -196,102 +129,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                 const SizedBox(height: 20),
 
-                // 🔵 indicators
-                Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center,
-                  children: List.generate(
-                    _pages.length,
-                    (index) {
-                      final active =
-                          index == currentPage;
-                      return AnimatedContainer(
-                        duration: const Duration(
-                            milliseconds: 300),
-                        margin: const EdgeInsets.all(6),
-                        height: 8,
-                        width: active ? 24 : 8,
-                        decoration: BoxDecoration(
-                          color: active
-                              ? Colors.white
-                              : Colors.white38,
-                          borderRadius:
-                              BorderRadius.circular(20),
-                        ),
-                      );
-                    },
-                  ),
+                Indicators(
+                  length: _pages.length,
+                  currentPage: currentPage,
                 ),
 
                 const SizedBox(height: 24),
 
-                // ✅ FIXED buttons layout
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32),
-                  child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: [
-                      // LEFT — SKIP
-                      TextButton(
-                        onPressed: () async {
-                          await auth.completeOnboarding();
-                        },
-                        child: const Text(
-                          "SKIP",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white70,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-
-                      // RIGHT — NEXT / START
-                      ElevatedButton(
-                        style:
-                            ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor:
-                              const Color(0xFF4DAFB4),
-                          padding:
-                              const EdgeInsets.symmetric(
-                            horizontal: 28,
-                            vertical: 16,
-                          ),
-                          shape:
-                              RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(40),
-                          ),
-                          elevation: 8,
-                        ),
-                        onPressed: () async {
-                          if (currentPage ==
-                              _pages.length - 1) {
-                            await auth.completeOnboarding();
-                          } else {
-                            _controller.nextPage(
-                              duration: const Duration(
-                                  milliseconds: 400),
-                              curve: Curves.easeOut,
-                            );
-                          }
-                        },
-                        child: Text(
-                          currentPage ==
-                                  _pages.length - 1
-                              ? "START"
-                              : "NEXT",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                BottomButtons(
+                  currentPage: currentPage,
+                  pagesLength: _pages.length,
+                  controller: _controller,
+                  onFinish: auth.completeOnboarding,
                 ),
 
                 const SizedBox(height: 40),
