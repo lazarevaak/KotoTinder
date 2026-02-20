@@ -5,5 +5,7 @@ class CompleteOnboarding {
 
   CompleteOnboarding(this.repository);
 
-  Future<void> call() => repository.completeOnboarding();
+  Future<void> call() async {
+    await repository.completeOnboarding();
+  }
 }

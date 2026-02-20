@@ -3,8 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../viewmodels/cat_viewmodel.dart';
+
 import '../widgets/swipe_card.dart';
-import 'cat_details_screen.dart';
+
+import 'details/cat_details_screen.dart';
+
 import 'liked_cats_screen.dart';
 
 class HomeScreen extends StatelessWidget {

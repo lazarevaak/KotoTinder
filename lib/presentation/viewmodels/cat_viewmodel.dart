@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../domain/entities/cat.dart';
 import '../../domain/usecases/get_liked_cats_with_breed.dart';
 import '../../domain/repositories/cat_repository.dart';

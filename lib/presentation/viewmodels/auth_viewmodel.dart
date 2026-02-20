@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../domain/usecases/login.dart';
 import '../../domain/usecases/register.dart';
 import '../../domain/usecases/check_auth_status.dart';
