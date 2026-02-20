@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../viewmodels/auth_viewmodel.dart';
+
+import '../../viewmodels/auth_viewmodel.dart';
+
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {

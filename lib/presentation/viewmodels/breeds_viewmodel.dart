@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../domain/entities/breed.dart';
 import '../../domain/repositories/cat_repository.dart';
 import '../../domain/usecases/search_breeds.dart';

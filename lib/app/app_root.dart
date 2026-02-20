@@ -6,8 +6,8 @@ import '../presentation/screens/breeds_list_screen.dart';
 import '../presentation/screens/liked_cats_screen.dart';
 
 import '../presentation/viewmodels/auth_viewmodel.dart';
-import '../presentation/screens/onboarding_screen.dart';
-import '../presentation/screens/login_screen.dart';
+import '../presentation/screens/auth/onboarding_screen.dart';
+import '../presentation/screens/auth/login_screen.dart';
 
 class KotoTinderApp extends StatelessWidget {
   const KotoTinderApp({super.key});

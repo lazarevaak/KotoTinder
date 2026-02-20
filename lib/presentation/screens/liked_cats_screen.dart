@@ -4,7 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import '../viewmodels/cat_viewmodel.dart';
 import '../widgets/breed_stat_widget.dart';
-import 'cat_details_screen.dart';
+
+import 'details/cat_details_screen.dart';
 
 class LikedCatsScreen extends StatelessWidget {
   const LikedCatsScreen({super.key});

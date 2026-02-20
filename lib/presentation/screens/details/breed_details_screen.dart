@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/breed.dart';
+
+import '../../../domain/entities/breed.dart';
 
 class BreedDetailsScreen extends StatelessWidget {
   final Breed breed;
