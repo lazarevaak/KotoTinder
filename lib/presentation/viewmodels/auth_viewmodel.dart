@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../domain/usecases/login.dart';
 import '../../domain/usecases/register.dart';
-import '../../domain/usecases/check_auth_status.dart';
 import '../../domain/usecases/complete_onboarding.dart';
-import '../../domain/repositories/auth_repository.dart';
+import '../../domain/usecases/init_auth.dart';
 
 class AuthViewModel extends ChangeNotifier {
   final Login loginUseCase;
   final Register registerUseCase;
-  final CheckAuthStatus checkAuthStatus;
   final CompleteOnboarding completeOnboardingUseCase;
-  final AuthRepository repository;
+  final InitAuth initAuth;
 
   bool isLoggedIn = false;
   bool onboardingCompleted = false;
@@ -21,14 +19,18 @@ class AuthViewModel extends ChangeNotifier {
   AuthViewModel({
     required this.loginUseCase,
     required this.registerUseCase,
-    required this.checkAuthStatus,
     required this.completeOnboardingUseCase,
-    required this.repository,
+    required this.initAuth,
   });
 
   Future<void> init() async {
-    isLoggedIn = await checkAuthStatus();
-    onboardingCompleted = await repository.isOnboardingCompleted();
+    try {
+      final result = await initAuth();
+      isLoggedIn = result.isLoggedIn;
+      onboardingCompleted = result.onboardingCompleted;
+    } catch (e) {
+      error = _mapError(e);
+    }
 
     isInitialized = true;
     notifyListeners();
@@ -40,23 +42,41 @@ class AuthViewModel extends ChangeNotifier {
       isLoggedIn = true;
       error = null;
     } catch (e) {
-      error = e.toString();
+      error = _mapError(e);
     }
     notifyListeners();
   }
 
   Future<void> register(String email, String password) async {
-    await registerUseCase(email, password);
-
-    isLoggedIn = true;
-    onboardingCompleted = false; 
-
+    try {
+      await registerUseCase(email, password);
+      isLoggedIn = true;
+      onboardingCompleted = false;
+      error = null;
+    } catch (e) {
+      error = _mapError(e);
+    }
     notifyListeners();
   }
 
   Future<void> completeOnboarding() async {
-    await completeOnboardingUseCase();
-    onboardingCompleted = true;
+    try {
+      await completeOnboardingUseCase();
+      onboardingCompleted = true;
+      error = null;
+    } catch (e) {
+      error = _mapError(e);
+    }
     notifyListeners();
+  }
+
+  String _mapError(Object e) {
+    final message = e.toString();
+
+    if (message.startsWith('Exception: ')) {
+      return message.replaceFirst('Exception: ', '');
+    }
+
+    return message;
   }
 }

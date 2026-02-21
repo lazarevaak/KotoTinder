@@ -1,5 +1,5 @@
 import '../entities/cat.dart';
-import '../repositories/cat_repository.dart';
+import '../repositories/cat/cat_repository.dart';
 
 class GetLikedCatsWithBreed {
   final CatRepository repository;

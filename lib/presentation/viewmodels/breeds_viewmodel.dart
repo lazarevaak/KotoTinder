@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/breed.dart';
-import '../../domain/repositories/cat_repository.dart';
+import '../../domain/usecases/get_breeds.dart';
 import '../../domain/usecases/search_breeds.dart';
 
 class BreedsViewModel extends ChangeNotifier {
-  final CatRepository repository;
+  final GetBreeds getBreeds;
   final SearchBreeds searchBreeds;
 
   BreedsViewModel({
-    required this.repository,
+    required this.getBreeds,
     required this.searchBreeds,
   });
 
@@ -25,7 +25,7 @@ class BreedsViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      breeds = await repository.loadBreeds();
+      breeds = await getBreeds();
       filtered = List.from(breeds);
     } catch (e) {
       error = e.toString();

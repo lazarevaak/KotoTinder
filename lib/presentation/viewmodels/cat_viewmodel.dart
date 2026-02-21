@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/cat.dart';
-import '../../domain/usecases/get_liked_cats_with_breed.dart';
-import '../../domain/repositories/cat_repository.dart';
+
+import '../../domain/usecases/init_cats.dart';
+import '../../domain/usecases/get_random_cat.dart';
+import '../../domain/usecases/like_cat.dart';
+import '../../domain/usecases/remove_cat.dart';
 
 class CatViewModel extends ChangeNotifier {
-  final CatRepository repository;
-  final GetLikedCatsWithBreed getLikedCats;
+  final InitCats initCats;
+  final GetRandomCat getRandomCat;
+  final LikeCat likeCat;
+  final RemoveCat removeCat;
 
   CatViewModel({
-    required this.repository,
-    required this.getLikedCats,
+    required this.initCats,
+    required this.getRandomCat,
+    required this.likeCat,
+    required this.removeCat,
   });
 
   List<Cat> likedCats = [];
@@ -25,8 +32,9 @@ class CatViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      likedCats = await getLikedCats();
-      await loadCat();
+      final result = await initCats();
+      likedCats = result.liked;
+      currentCat = result.random;
     } catch (e) {
       error = e.toString();
     }
@@ -37,7 +45,7 @@ class CatViewModel extends ChangeNotifier {
 
   Future<void> loadCat() async {
     try {
-      currentCat = await repository.loadRandomCat();
+      currentCat = await getRandomCat();
     } catch (e) {
       error = e.toString();
     }
@@ -47,32 +55,24 @@ class CatViewModel extends ChangeNotifier {
   Future<void> like() async {
     if (currentCat == null) return;
 
-    loading = true;
-    notifyListeners();
-
     try {
-      await repository.saveCat(currentCat!);
+      await likeCat(currentCat!);
       likedCats.add(currentCat!);
     } catch (e) {
       error = e.toString();
     }
 
-    loading = false;
     notifyListeners();
   }
 
   Future<void> remove(Cat cat) async {
-    loading = true;
-    notifyListeners();
-
     try {
-      await repository.removeCat(cat.id);
+      await removeCat(cat.id);
       likedCats.remove(cat);
     } catch (e) {
       error = e.toString();
     }
 
-    loading = false;
     notifyListeners();
   }
 }

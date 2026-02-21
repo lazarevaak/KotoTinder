@@ -1,12 +1,12 @@
-import '../../domain/entities/cat.dart';
-import '../../domain/entities/breed.dart';
+import '../../entities/cat.dart';
+import '../../entities/breed.dart';
 
-import '../../domain/repositories/cat_repository.dart';
+import 'cat_repository.dart';
 
-import '../../data/datasources/remote/cat_remote_datasource.dart';
-import '../../data/datasources/local/cat_local_datasource.dart';
+import '../../../data/datasources/remote/cat_remote_datasource.dart';
+import '../../../data/datasources/local/cat_local_datasource.dart';
 
-import '../../data/models/cat_model.dart';
+import '../../../data/models/cat_model.dart';
 
 class CatRepositoryImpl implements CatRepository {
   final CatRemoteDataSource remote;

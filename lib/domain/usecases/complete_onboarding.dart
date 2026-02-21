@@ -1,4 +1,4 @@
-import '../repositories/auth_repository.dart';
+import '../repositories/auth/auth_repository.dart';
 
 class CompleteOnboarding {
   final AuthRepository repository;
