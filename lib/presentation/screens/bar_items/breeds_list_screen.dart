@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../viewmodels/breeds_viewmodel.dart';
+import '../../viewmodels/breeds_viewmodel.dart';
 
-import 'details/breed_details_screen.dart';
+import '../details/breed_details_screen.dart';
 
 class BreedsListScreen extends StatelessWidget {
   const BreedsListScreen({super.key});

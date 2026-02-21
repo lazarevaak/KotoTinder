@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../viewmodels/cat_viewmodel.dart';
+import '../../viewmodels/cat_viewmodel.dart';
 
-import '../widgets/swipe_card.dart';
+import '../../widgets/swipe_card.dart';
 
-import 'details/cat_details_screen.dart';
+import '../details/cat_details_screen.dart';
 
 import 'liked_cats_screen.dart';
 

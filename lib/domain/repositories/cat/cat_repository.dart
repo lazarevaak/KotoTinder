@@ -1,5 +1,5 @@
-import '../entities/cat.dart';
-import '../entities/breed.dart';
+import '../../entities/cat.dart';
+import '../../entities/breed.dart';
 
 abstract class CatRepository {
   Future<Cat> loadRandomCat();

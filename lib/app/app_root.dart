@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../presentation/screens/home_screen.dart';
-import '../presentation/screens/breeds_list_screen.dart';
-import '../presentation/screens/liked_cats_screen.dart';
+import '../presentation/screens/bar_items/home_screen.dart';
+import '../presentation/screens/bar_items/breeds_list_screen.dart';
+import '../presentation/screens/bar_items/liked_cats_screen.dart';
 
 import '../presentation/viewmodels/auth_viewmodel.dart';
 import '../presentation/screens/auth/onboarding_screen.dart';

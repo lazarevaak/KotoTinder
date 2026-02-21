@@ -8,21 +8,28 @@ import '../data/datasources/storage/cat_hive_model.dart';
 import '../data/datasources/local/cat_local_datasource.dart';
 import '../data/datasources/remote/cat_remote_datasource.dart';
 import '../data/datasources/services/cat_api_service.dart';
-import '../domain/repositories/cat_repository_impl.dart';
-
 import '../data/datasources/local/auth_local_datasource.dart';
-import '../domain/repositories/auth_repository_impl.dart';
 
-import '../domain/repositories/cat_repository.dart';
-import '../domain/repositories/auth_repository.dart';
+import '../domain/repositories/auth/auth_repository_impl.dart';
+import '../domain/repositories/cat/cat_repository_impl.dart';
+import '../domain/repositories/cat/cat_repository.dart';
+import '../domain/repositories/auth/auth_repository.dart';
+
+import '../domain/usecases/init_auth.dart';
+import '../domain/usecases/init_cats.dart';
 
 import '../domain/usecases/get_liked_cats_with_breed.dart';
+import '../domain/usecases/get_random_cat.dart';
+import '../domain/usecases/like_cat.dart';
+import '../domain/usecases/remove_cat.dart';
+import '../domain/usecases/get_breeds.dart';
 import '../domain/usecases/search_breeds.dart';
 
 import '../domain/usecases/login.dart';
 import '../domain/usecases/register.dart';
 import '../domain/usecases/check_auth_status.dart';
 import '../domain/usecases/complete_onboarding.dart';
+import '../domain/usecases/check_onboarding_status.dart';
 
 import '../presentation/viewmodels/cat_viewmodel.dart';
 import '../presentation/viewmodels/breeds_viewmodel.dart';
@@ -45,9 +52,7 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
 
-        Provider(
-          create: (_) => const FlutterSecureStorage(),
-        ),
+        Provider(create: (_) => const FlutterSecureStorage()),
 
         Provider(
           create: (context) => AuthLocalDataSource(
@@ -71,28 +76,37 @@ class App extends StatelessWidget {
 
         Provider(
           create: (context) =>
+              CompleteOnboarding(context.read<AuthRepository>()),
+        ),
+
+        Provider(
+          create: (context) =>
               CheckAuthStatus(context.read<AuthRepository>()),
         ),
 
         Provider(
           create: (context) =>
-              CompleteOnboarding(context.read<AuthRepository>()),
+              CheckOnboardingStatus(context.read<AuthRepository>()),
+        ),
+
+        Provider(
+          create: (context) => InitAuth(
+            context.read<CheckAuthStatus>(),
+            context.read<CheckOnboardingStatus>(),
+          ),
         ),
 
         ChangeNotifierProvider(
           create: (context) => AuthViewModel(
             loginUseCase: context.read<Login>(),
             registerUseCase: context.read<Register>(),
-            checkAuthStatus: context.read<CheckAuthStatus>(),
             completeOnboardingUseCase:
                 context.read<CompleteOnboarding>(),
-            repository: context.read<AuthRepository>(),
+            initAuth: context.read<InitAuth>(),
           )..init(),
         ),
 
-        Provider(
-          create: (_) => CatApiService(),
-        ),
+        Provider(create: (_) => CatApiService()),
 
         Provider(
           create: (context) =>
@@ -116,20 +130,46 @@ class App extends StatelessWidget {
         ),
 
         Provider(
-          create: (_) => SearchBreeds(),
+          create: (context) =>
+              GetRandomCat(context.read<CatRepository>()),
+        ),
+
+        Provider(
+          create: (context) =>
+              LikeCat(context.read<CatRepository>()),
+        ),
+
+        Provider(
+          create: (context) =>
+              RemoveCat(context.read<CatRepository>()),
+        ),
+
+        Provider(
+          create: (context) =>
+              GetBreeds(context.read<CatRepository>()),
+        ),
+
+        Provider(create: (_) => SearchBreeds()),
+
+        Provider(
+          create: (context) => InitCats(
+            context.read<GetLikedCatsWithBreed>(),
+            context.read<GetRandomCat>(),
+          ),
         ),
 
         ChangeNotifierProvider(
           create: (context) => CatViewModel(
-            repository: context.read<CatRepository>(),
-            getLikedCats:
-                context.read<GetLikedCatsWithBreed>(),
+            initCats: context.read<InitCats>(),
+            getRandomCat: context.read<GetRandomCat>(),
+            likeCat: context.read<LikeCat>(),
+            removeCat: context.read<RemoveCat>(),
           )..init(),
         ),
 
         ChangeNotifierProvider(
           create: (context) => BreedsViewModel(
-            repository: context.read<CatRepository>(),
+            getBreeds: context.read<GetBreeds>(),
             searchBreeds: context.read<SearchBreeds>(),
           )..loadBreeds(),
         ),
