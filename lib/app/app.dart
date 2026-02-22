@@ -3,12 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../data/datasources/storage/cat_hive_model.dart';
 import '../data/datasources/local/cat_local_datasource.dart';
 import '../data/datasources/remote/cat_remote_datasource.dart';
 import '../data/datasources/services/cat_api_service.dart';
 import '../data/datasources/local/auth_local_datasource.dart';
+import '../data/datasources/services/analytics_service.dart';
+import '../data/datasources/services/analytics_service_impl.dart';
 
 import '../domain/repositories/auth/auth_repository_impl.dart';
 import '../domain/repositories/cat/cat_repository_impl.dart';
@@ -51,6 +54,17 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+
+        Provider<FirebaseAnalytics>(
+          create: (_) => FirebaseAnalytics.instance,
+        ),
+
+        Provider<AnalyticsService>(
+          create: (context) =>
+              AnalyticsServiceImpl(
+                context.read<FirebaseAnalytics>(),
+              ),
+        ),
 
         Provider(create: (_) => const FlutterSecureStorage()),
 
@@ -103,6 +117,7 @@ class App extends StatelessWidget {
             completeOnboardingUseCase:
                 context.read<CompleteOnboarding>(),
             initAuth: context.read<InitAuth>(),
+            analytics: context.read<AnalyticsService>(),
           )..init(),
         ),
 
