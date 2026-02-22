@@ -5,11 +5,14 @@ import '../../domain/usecases/register.dart';
 import '../../domain/usecases/complete_onboarding.dart';
 import '../../domain/usecases/init_auth.dart';
 
+import '../../data/datasources/services/analytics_service.dart';
+
 class AuthViewModel extends ChangeNotifier {
   final Login loginUseCase;
   final Register registerUseCase;
   final CompleteOnboarding completeOnboardingUseCase;
   final InitAuth initAuth;
+  final AnalyticsService analytics; 
 
   bool isLoggedIn = false;
   bool onboardingCompleted = false;
@@ -21,6 +24,7 @@ class AuthViewModel extends ChangeNotifier {
     required this.registerUseCase,
     required this.completeOnboardingUseCase,
     required this.initAuth,
+    required this.analytics, 
   });
 
   Future<void> init() async {
@@ -39,23 +43,45 @@ class AuthViewModel extends ChangeNotifier {
   Future<void> login(String email, String password) async {
     try {
       await loginUseCase(email, password);
+
       isLoggedIn = true;
       error = null;
+
+      await analytics.logEvent('login_success');
     } catch (e) {
       error = _mapError(e);
+
+      await analytics.logEvent(
+        'login_error',
+        parameters: {
+          'message': error,
+        },
+      );
     }
+
     notifyListeners();
   }
 
   Future<void> register(String email, String password) async {
     try {
       await registerUseCase(email, password);
+
       isLoggedIn = true;
       onboardingCompleted = false;
       error = null;
+
+      await analytics.logEvent('register_success');
     } catch (e) {
       error = _mapError(e);
+
+      await analytics.logEvent(
+        'register_error',
+        parameters: {
+          'message': error,
+        },
+      );
     }
+
     notifyListeners();
   }
 
@@ -64,9 +90,12 @@ class AuthViewModel extends ChangeNotifier {
       await completeOnboardingUseCase();
       onboardingCompleted = true;
       error = null;
+
+      await analytics.logEvent('onboarding_completed');
     } catch (e) {
       error = _mapError(e);
     }
+
     notifyListeners();
   }
 

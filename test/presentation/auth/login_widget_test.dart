@@ -47,18 +47,16 @@ void main() {
       ),
     );
 
-    // ВАЖНО: валидные данные формы
     await tester.enterText(
         find.byType(TextFormField).at(0), 'wrong@mail.com');
     await tester.enterText(
-        find.byType(TextFormField).at(1), 'password123'); // >= 6 символов
+        find.byType(TextFormField).at(1), 'password123');
 
     await tester.tap(find.byType(ElevatedButton));
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Invalid credentials'), findsOneWidget);
 
-    // Дополнительно можно проверить что usecase вызвался
     verify(() => mockLogin(any(), any())).called(1);
   });
 }

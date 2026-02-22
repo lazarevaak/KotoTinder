@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "639324586854",
+    "project_id": "kototinder-lazareva",
+    "storage_bucket": "kototinder-lazareva.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639324586854:android:49e6b7db4e505935503ea7",
+        "android_client_info": {
+          "package_name": "com.example.kototinder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2S4UAGLa_vGRTaZuKk0T4bsfwfk9NPE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
