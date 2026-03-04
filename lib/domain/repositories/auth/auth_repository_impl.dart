@@ -17,16 +17,17 @@ class AuthRepositoryImpl implements AuthRepository {
     if (!valid) {
       throw Exception("Invalid credentials");
     }
+    await local.setLoggedIn(true);
   }
 
   @override
   Future<bool> isLoggedIn() async {
-    return await local.hasCredentials();
+    return await local.hasActiveSession();
   }
 
   @override
   Future<void> logout() async {
-    await local.clear();
+    await local.setLoggedIn(false);
   }
 
   @override

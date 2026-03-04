@@ -9,6 +9,7 @@ class AuthLocalDataSource {
 
   static const _keyEmail = 'auth_email';
   static const _keyPassword = 'auth_password';
+  static const _keySession = 'auth_logged_in';
   static const _keyOnboarding = 'onboarding_completed';
 
   AuthLocalDataSource({
@@ -26,6 +27,7 @@ class AuthLocalDataSource {
       key: _keyPassword,
       value: _hash(password),
     );
+    await setLoggedIn(true);
   }
 
   Future<bool> validateCredentials(String email, String password) async {
@@ -36,13 +38,22 @@ class AuthLocalDataSource {
         savedPassword == _hash(password);
   }
 
-  Future<bool> hasCredentials() async {
+  Future<bool> hasActiveSession() async {
     final email = await secureStorage.read(key: _keyEmail);
-    return email != null;
+    final password = await secureStorage.read(key: _keyPassword);
+    final hasStoredAccount = email != null && password != null;
+    final sessionFlag = prefs.getBool(_keySession);
+
+    // Migration: old installs had no separate session flag.
+    if (sessionFlag == null) {
+      return hasStoredAccount;
+    }
+
+    return hasStoredAccount && sessionFlag;
   }
 
-  Future<void> clear() async {
-    await secureStorage.deleteAll();
+  Future<void> setLoggedIn(bool value) async {
+    await prefs.setBool(_keySession, value);
   }
 
   bool isOnboardingCompleted() {

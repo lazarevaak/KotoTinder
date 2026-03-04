@@ -11,13 +11,16 @@ import 'package:kototinder/domain/usecases/login.dart';
 import 'package:kototinder/domain/usecases/register.dart';
 import 'package:kototinder/domain/usecases/complete_onboarding.dart';
 import 'package:kototinder/domain/usecases/init_auth.dart';
+import 'package:kototinder/domain/usecases/logout.dart';
 
 import '../../helpers/test_app_wrapper.dart';
+import '../../domain/mocks/mock_analytics.dart';
 
 class MockLogin extends Mock implements Login {}
 class MockRegister extends Mock implements Register {}
 class MockCompleteOnboarding extends Mock implements CompleteOnboarding {}
 class MockInitAuth extends Mock implements InitAuth {}
+class MockLogout extends Mock implements Logout {}
 
 void main() {
   testWidgets('successful login changes state', (tester) async {
@@ -25,6 +28,8 @@ void main() {
     final mockRegister = MockRegister();
     final mockComplete = MockCompleteOnboarding();
     final mockInit = MockInitAuth();
+    final mockLogout = MockLogout();
+    final mockAnalytics = MockAnalytics();
 
     when(() => mockInit()).thenAnswer(
       (_) async => InitAuthResult(
@@ -35,12 +40,20 @@ void main() {
 
     when(() => mockLogin(any(), any()))
         .thenAnswer((_) async {});
+    when(
+      () => mockAnalytics.logEvent(
+        any(),
+        parameters: any(named: 'parameters'),
+      ),
+    ).thenAnswer((_) async {});
 
     final viewModel = AuthViewModel(
       loginUseCase: mockLogin,
       registerUseCase: mockRegister,
       completeOnboardingUseCase: mockComplete,
       initAuth: mockInit,
+      logoutUseCase: mockLogout,
+      analytics: mockAnalytics,
     );
 
     await tester.pumpWidget(

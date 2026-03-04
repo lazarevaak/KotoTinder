@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../domain/entities/onboarding_page.dart';
 
 class OnboardingPager extends StatelessWidget {
-    const OnboardingPager({
+  const OnboardingPager({
+    super.key,
     required this.controller,
     required this.pageOffset,
     required this.pages,

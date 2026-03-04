@@ -4,6 +4,7 @@ import '../../domain/usecases/login.dart';
 import '../../domain/usecases/register.dart';
 import '../../domain/usecases/complete_onboarding.dart';
 import '../../domain/usecases/init_auth.dart';
+import '../../domain/usecases/logout.dart';
 
 import '../../data/datasources/services/analytics_service.dart';
 
@@ -12,6 +13,7 @@ class AuthViewModel extends ChangeNotifier {
   final Register registerUseCase;
   final CompleteOnboarding completeOnboardingUseCase;
   final InitAuth initAuth;
+  final Logout logoutUseCase;
   final AnalyticsService analytics; 
 
   bool isLoggedIn = false;
@@ -24,6 +26,7 @@ class AuthViewModel extends ChangeNotifier {
     required this.registerUseCase,
     required this.completeOnboardingUseCase,
     required this.initAuth,
+    required this.logoutUseCase,
     required this.analytics, 
   });
 
@@ -92,6 +95,19 @@ class AuthViewModel extends ChangeNotifier {
       error = null;
 
       await analytics.logEvent('onboarding_completed');
+    } catch (e) {
+      error = _mapError(e);
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
+    try {
+      await logoutUseCase();
+      isLoggedIn = false;
+      error = null;
+      await analytics.logEvent('logout');
     } catch (e) {
       error = _mapError(e);
     }

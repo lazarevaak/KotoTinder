@@ -1,4 +1,4 @@
-package com.example.kototinder
+package com.aleksandra.kototinder
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,0 +1,45 @@
+name: Flutter CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Create CI secrets file
+        run: |
+          cat > .secrets << 'EOF'
+          APPMETRICA_API_KEY=dummy
+          FIREBASE_ANDROID_API_KEY=dummy
+          FIREBASE_IOS_API_KEY=dummy
+          FIREBASE_MACOS_API_KEY=dummy
+          FIREBASE_WEB_API_KEY=dummy
+          FIREBASE_WINDOWS_API_KEY=dummy
+          EOF
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Unit tests
+        run: flutter test test/domain test/presentation/cats
+
+      - name: Widget tests
+        run: flutter test test/presentation/auth

@@ -6,9 +6,8 @@ class GetLikedCatsWithBreed {
 
   GetLikedCatsWithBreed(this.repository);
 
-  Future<List<Cat>> call() async {
-    final cats = await repository.loadSavedCats();
-
+  Future<List<Cat>> call() {
+    final cats = repository.loadSavedCats();
     return Future.wait(
       cats.map((cat) async {
         final breed = await repository.loadBreed(cat.breedID);
