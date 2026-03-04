@@ -72,8 +72,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           _passwordController.text.trim(),
                         );
 
+                        if (!context.mounted) return;
                         setState(() => _loading = false);
-
                         Navigator.pop(context);
                       },
                 child: _loading

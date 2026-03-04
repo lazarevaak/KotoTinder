@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class BottomButtons extends StatelessWidget {
   const BottomButtons({
+    super.key,
     required this.currentPage,
     required this.pagesLength,
     required this.controller,

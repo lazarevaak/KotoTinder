@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Indicators extends StatelessWidget {
   const Indicators({
+    super.key,
     required this.length,
     required this.currentPage,
   });
@@ -30,4 +31,3 @@ class Indicators extends StatelessWidget {
     );
   }
 }
-
