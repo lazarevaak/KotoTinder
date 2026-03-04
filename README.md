@@ -7,7 +7,7 @@
 Пользователь свайпает кошачьи карточки, ставит лайки любимым котам,  
 открывает детальную информацию и просматривает список пород.
 
-Приложение построено на **архитектуре MVVM**, использует открытое API  
+Приложение построено на **архитектуре Clean Architecture**, использует открытое API  
 **TheCatAPI**, а также поддерживает красивые анимации и приятный UI и хранение данных в базе данных.
 
 ## Реализованный функционал
@@ -44,6 +44,54 @@
 - Фото, название породы, характеристики
 - БД (удаление и добавление котов)
 
+### Онбординг 
+
+При первом запуске отображается онбординг-экран.
+
+Он содержит несколько страниц:
+1. объяснение механики свайпов
+2. просмотр информации о породах
+3. лайки и список любимых котиков
+
+### Регистрация и вход
+
+В приложении реализован authentication flow.
+
+Login:
+- email
+- password
+- валидация
+- обработка ошибок
+
+Sign Up:
+- регистрация нового пользователя
+- проверка данных
+- создание аккаунта
+
+Сохранение авторизации:
+
+Данные пользователя сохраняются в Flutter Secure Storage / Keychain.
+
+### Тестирование
+1. Unit tests проверяют доменную логику.
+2. Widget tests проверяют UI-сценарии.
+
+### CI/CD
+
+Настроен GitHub Actions pipeline.
+
+При каждом push / pull request выполняется: flutter analyze и flutter test.
+
+Если тесты падают — pipeline завершается ошибкой.
+
+### Аналитика
+
+В приложении настроено логирование событий.
+
+Используется Firebase Analytics и AppMetrica.
+
+<img width="934" height="652" alt="Снимок экрана 2026-03-05 в 01 03 38" src="https://github.com/user-attachments/assets/7c3ea78c-a06d-43fc-9cf4-5f818186b543" />
+
 ### Визуал и UI
 - Кастомные анимации свайпа
 - Обводка при свайпе:
@@ -55,8 +103,6 @@
 - Белый минималистичный UI в стиле Tinder
 
 ## Скриншоты интерфейса
-
-
 
 ### Главный экран
 
@@ -78,10 +124,20 @@
 
 <img width="404" height="850" alt="Снимок экрана 2025-12-03 в 03 54 43" src="https://github.com/user-attachments/assets/87e623a6-37e7-4cf1-9227-ad3e94a71e4f" />
 
+### Онбординг 
+https://github.com/user-attachments/assets/3361bd67-37b0-40f7-9ac6-f84331c33659
+
+<img width="1536" height="1024" alt="ce767e3f-9b0a-46dd-8a29-bdc2bf4dc7d3" src="https://github.com/user-attachments/assets/1e6900ea-bea2-4a89-8b1a-90106b480cbd" />
+
+### Вход
+
+<img width="841" height="1280" alt="image" src="https://github.com/user-attachments/assets/b1e3b651-4f11-4f7f-b0da-bd1d284ada16" />
+
+<img width="785" height="1280" alt="image" src="https://github.com/user-attachments/assets/a2180368-a870-4cc6-b4c0-288166e58fbc" />
 
 ## Скачать APK
 
-**[Скачать актуальную версию APK](https://github.com/lazarevaak/KotoTinderPro/releases/download/v2.0/app-release.apk)**
+**[Скачать актуальную версию APK](https://github.com/lazarevaak/KotoTinder/releases/download/v2.0/app-release.apk)**
 
 ## Extra 
 
