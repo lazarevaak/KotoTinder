@@ -21,6 +21,8 @@ dependencies:
   firebase_core: ^2.30.0
   firebase_analytics: ^10.10.0
   appmetrica_plugin: ^3.2.0
+  flutter_dotenv: ^5.1.0
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
@@ -47,6 +49,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .secrets
     - assets/Koto1.png
     - assets/Koto2.png
     - assets/Koto3.png

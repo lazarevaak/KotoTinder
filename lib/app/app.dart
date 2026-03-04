@@ -30,6 +30,7 @@ import '../domain/usecases/search_breeds.dart';
 
 import '../domain/usecases/login.dart';
 import '../domain/usecases/register.dart';
+import '../domain/usecases/logout.dart';
 import '../domain/usecases/check_auth_status.dart';
 import '../domain/usecases/complete_onboarding.dart';
 import '../domain/usecases/check_onboarding_status.dart';
@@ -89,6 +90,10 @@ class App extends StatelessWidget {
         ),
 
         Provider(
+          create: (context) => Logout(context.read<AuthRepository>()),
+        ),
+
+        Provider(
           create: (context) =>
               CompleteOnboarding(context.read<AuthRepository>()),
         ),
@@ -117,6 +122,7 @@ class App extends StatelessWidget {
             completeOnboardingUseCase:
                 context.read<CompleteOnboarding>(),
             initAuth: context.read<InitAuth>(),
+            logoutUseCase: context.read<Logout>(),
             analytics: context.read<AnalyticsService>(),
           )..init(),
         ),
