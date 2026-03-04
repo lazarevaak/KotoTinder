@@ -81,7 +81,7 @@
 
 ## Скачать APK
 
-**[Скачать актуальную версию APK](https://github.com/lazarevaak/KotoTinder/releases/download/v1.0.2/app-release.apk)**
+**[Скачать актуальную версию APK](https://github.com/lazarevaak/KotoTinderPro/releases/download/v2.0/app-release.apk)**
 
 ## Extra 
 
